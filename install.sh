@@ -13,6 +13,15 @@ TEMP_DIR="/tmp/mac-app-updater-$$"
 echo "=== Mac Application Updater - One-Line Installer ==="
 echo "Downloading and executing updater script..."
 
+# Cleanup function
+cleanup() {
+    cd / 2>/dev/null || true
+    rm -rf "$TEMP_DIR" 2>/dev/null || true
+}
+
+# Ensure cleanup happens on exit
+trap cleanup EXIT
+
 # Create temp directory
 mkdir -p "$TEMP_DIR"
 cd "$TEMP_DIR"
@@ -29,9 +38,5 @@ chmod +x "$SCRIPT_NAME"
 # Execute immediately
 echo "Running update script..."
 bash "$SCRIPT_NAME"
-
-# Cleanup
-cd /
-rm -rf "$TEMP_DIR"
 
 echo "=== Update Complete ==="

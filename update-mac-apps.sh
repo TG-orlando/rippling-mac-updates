@@ -155,11 +155,16 @@ close_applications() {
 
         # Get current user for osascript
         local current_user
-        current_user=$(stat -f%Su /dev/console 2>/dev/null || echo "$USER")
+        current_user=$(stat -f%Su /dev/console 2>/dev/null || echo "${USER:-root}")
 
         # Try graceful quit first (as the console user)
         if [[ -n "$current_user" ]] && [[ "$current_user" != "root" ]]; then
-            sudo -u "$current_user" osascript -e "tell application \"$app\" to quit" 2>/dev/null || true
+            # Try with sudo if we're running as root, otherwise run directly
+            if [[ $EUID -eq 0 ]]; then
+                sudo -n -u "$current_user" osascript -e "tell application \"$app\" to quit" 2>/dev/null || true
+            else
+                osascript -e "tell application \"$app\" to quit" 2>/dev/null || true
+            fi
             sleep 3
         fi
 
@@ -192,13 +197,18 @@ reopen_applications() {
 
     # Get current console user
     local current_user
-    current_user=$(stat -f%Su /dev/console 2>/dev/null || echo "$USER")
+    current_user=$(stat -f%Su /dev/console 2>/dev/null || echo "${USER:-root}")
 
     for app in "${apps_to_reopen[@]}"; do
         log "  Reopening: $app"
 
         if [[ -n "$current_user" ]] && [[ "$current_user" != "root" ]]; then
-            sudo -u "$current_user" open -a "$app" 2>/dev/null || log "  Failed to reopen: $app" "WARN"
+            # Try with sudo if we're running as root, otherwise run directly
+            if [[ $EUID -eq 0 ]]; then
+                sudo -n -u "$current_user" open -a "$app" 2>/dev/null || log "  Failed to reopen: $app" "WARN"
+            else
+                open -a "$app" 2>/dev/null || log "  Failed to reopen: $app" "WARN"
+            fi
         else
             open -a "$app" 2>/dev/null || log "  Failed to reopen: $app" "WARN"
         fi
@@ -290,7 +300,7 @@ main() {
 }
 
 # Cleanup on exit
-trap 'log "Script interrupted or failed" "ERROR"' ERR INT TERM
+trap 'echo "Script interrupted or failed" >&2; exit 1' ERR INT TERM
 
 # Run main function
 main "$@"
