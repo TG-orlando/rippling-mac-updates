@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # One-line installer for Mac Application Updater
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/mac-app-updater/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/TG-orlando/rippling-mac-updates/main/install.sh | bash
 
 set -euo pipefail
 
-REPO_URL="https://raw.githubusercontent.com/YOUR-USERNAME/mac-app-updater/main"
+REPO_URL="https://raw.githubusercontent.com/TG-orlando/rippling-mac-updates/main"
 SCRIPT_NAME="update-mac-apps.sh"
 INSTALL_DIR="/usr/local/bin"
 TEMP_DIR="/tmp/mac-app-updater-$$"

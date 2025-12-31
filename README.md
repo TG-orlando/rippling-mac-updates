@@ -28,19 +28,19 @@ The script currently manages these applications:
 ### Option 1: One-Line Command (Recommended for Rippling MDM)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/mac-app-updater/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/TG-orlando/rippling-mac-updates/main/install.sh | bash
 ```
 
 ### Option 2: Direct Script Execution
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/mac-app-updater/main/update-mac-apps.sh | bash
+curl -fsSL https://raw.githubusercontent.com/TG-orlando/rippling-mac-updates/main/update-mac-apps.sh | bash
 ```
 
 ### Option 3: Download and Run
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/mac-app-updater/main/update-mac-apps.sh -o update-mac-apps.sh
+curl -fsSL https://raw.githubusercontent.com/TG-orlando/rippling-mac-updates/main/update-mac-apps.sh -o update-mac-apps.sh
 chmod +x update-mac-apps.sh
 ./update-mac-apps.sh
 ```
@@ -60,7 +60,7 @@ chmod +x update-mac-apps.sh
    - **Script Content**:
    ```bash
    #!/bin/bash
-   curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/mac-app-updater/main/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/TG-orlando/rippling-mac-updates/main/install.sh | bash
    ```
 
 5. Set schedule (recommended: weekly)
