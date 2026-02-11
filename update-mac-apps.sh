@@ -271,7 +271,9 @@ main() {
     # Step 2: Detect running applications
     log "Step 2: Detecting running applications"
     local running_apps=()
-    mapfile -t running_apps < <(get_running_apps)
+    while IFS= read -r app; do
+        [[ -n "$app" ]] && running_apps+=("$app")
+    done < <(get_running_apps)
 
     if [[ ${#running_apps[@]} -gt 0 ]]; then
         log "Found ${#running_apps[@]} running applications"
